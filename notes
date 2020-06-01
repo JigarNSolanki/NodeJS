@@ -1,0 +1,23 @@
+https://jasonwatmore.com/post/2018/06/14/nodejs-mongodb-simple-api-for-authentication-registration-and-user-management
+
+=> JWT
+A JSON web token(JWT) is JSON Object which is used to securely transfer information over the web
+(between two parties). It can be used for an authentication system and can also be used for 
+information exchange.
+In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:
+1. Header
+2. Payload
+3. Signature
+
+=> jsonwebtoken module
+A module to implement JWT
+
+=> express-jwt module
+A module that provides Express middleware for validating JWTs (JSON Web Tokens) through the jsonwebtoken module.
+
+==> Async function
+Async functions are available natively in Node and are denoted by the async keyword in their declaration.
+They always return a promise, even if you don’t explicitly write them to do so. Also, the await keyword is 
+only available inside async functions at the moment - it cannot be used in the global scope.
+In an async function, you can await any Promise or catch its rejection cause.
+
