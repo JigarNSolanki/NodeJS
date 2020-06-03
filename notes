@@ -21,3 +21,50 @@ They always return a promise, even if you don’t explicitly write them to do so
 only available inside async functions at the moment - it cannot be used in the global scope.
 In an async function, you can await any Promise or catch its rejection cause.
 
+==> Populate
+Mongoose has a more powerful alternative called populate(), which lets you reference documents in other collections.
+Population is the process of automatically replacing the specified paths in the document with document(s) from 
+other collection(s).
+
+
+========================= Create function of Expense ====================================
+async function create2(req,res){
+    body = req.body;
+    var payee = await User.findById(body.id_by_whom);
+    
+    // var newExpense = Expense(body);
+    // var savedExpense = await newExpense.save()
+    // var newId = savedExpense._id;
+
+    // payee.expenses = payee.expenses.concat(newId);
+
+    receivers = body.to_whom;
+    var i;
+    for(i=0; i < receivers.length;i++){
+        var id_r = receivers[i].id_of_receiver;
+        var amount_r = receivers[i].amount_received;
+        var receiver = await User.findById(id_r);
+        // receiver.expenses = receiver.expenses.concat(newId);
+
+        var index = payee.account.findIndex(p => p.username_ == receiver.username);
+        if(index == -1){
+            payee.account = payee.account.concat({
+                "username_" : receiver.username,
+                "balance_": amount_r
+           });
+           receiver.account = receiver.account.concat({
+               "username_" : payee.username,
+               "balance_": 0-amount_r
+           });
+        }
+        else{
+            payee.account[index].balance_ = payee.account[index].balance_ + amount_r;
+            var index_r = receiver.account.findIndex(p => p.username_ == payee.username);
+            receiver.account[index_r].balance_ = receiver.account[index_r].balance_ - amount_r;
+        }
+        receiver.save();
+    };
+    payee.save();
+    res.send("Expense added successfully");
+}
+======================================================================================================

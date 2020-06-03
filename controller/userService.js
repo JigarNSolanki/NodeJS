@@ -24,7 +24,7 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return await User.find();
+    return await User.find({})
 }
 
 async function getById(id) {

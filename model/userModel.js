@@ -1,3 +1,4 @@
+var Expense = require("./expenseModel");
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -6,7 +7,16 @@ const schema = new Schema({
     hash: { type: String, required: true },                     // To hash the password
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    createdDate: { type: Date, default: Date.now }
+    createdDate: { type: Date, default: Date.now },
+    expenses: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Expense'},
+    ],
+    account: [
+        {
+            username_ :  {type: String},
+            balance_: {type: Number} 
+        },
+    ]
 });
 
 schema.set('toJSON', {
@@ -18,4 +28,5 @@ schema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('User', schema);
+var User = mongoose.model('User', schema);
+module.exports = User;
